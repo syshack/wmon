@@ -119,7 +119,7 @@ class LogHandler(BaseHandler):
 
     def get(self):
         server_name = self.request.get("server").strip()
-        logs = MonLog.gql("WHERE server_name = :server_name ORDER BY time DESC limit 10000", server_name=server_name) #, time=time.time()-7*24*60*60)
+        logs = MonLog.gql("WHERE server_name = :server_name and time > :time ORDER BY time DESC limit 10000", server_name=server_name, time = int(round(time.time()-7*24*60*60)))
         
         log_lines = []
         
@@ -199,10 +199,22 @@ class ReceiveHandler(BaseHandler):
             
             self.write('ok')
         
+class RemoveLogHandler(BaseHandler):
+
+    def get(self):
+        """docstring for get"""
+        logs = MonLog.gql('WHERE time < :time', time=int(round(time.time()-30*24*60*60)))
+
+        for log in logs:
+            log.delete()
+
+        self.write('ok')
+            
 def main():
     application = webapp.WSGIApplication([
                         ('/', MainHandler),
                         ('/log', LogHandler),
+                        ('/remove_log', RemoveLogHandler),
                         ('/receive', ReceiveHandler),
                         ], debug=True)
     util.run_wsgi_app(application)
