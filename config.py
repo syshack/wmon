@@ -1,2 +1,2 @@
 
-API_SECRET = "whycai"
+API_SECRET = "secret"
