@@ -123,7 +123,7 @@ figure      { display:block; }
 }
 
 /* ------------------------------------------------------------------ */
-body { min-width:800px; }
+body { min-width:200px; }
 * { font-size: 11px; font-family: arial,verdana; color:#333333; }
 
 .hostname { background:#aaaaaa; color:white; font-size:16px; padding:5px 10px 5px 35px; border-bottom:1px solid #888; cursor:pointer; }
@@ -134,14 +134,14 @@ body { min-width:800px; }
 footer { font-size: 11px; color:gray; text-align:center; }
 footer a { font-size: 11px; text-decoration:none; color:#555555; }
 
-.column { margin-bottom:20px; }
+.column { margin-bottom:20px; float:left; width:30%}
 table.main td { vertical-align:top; padding:0;  }
 
 table.table  { border-collapse:collapse; width:90%; margin-left:20px; }
 table.table th { border-bottom:1px solid #aaaaaa; }
 table.table td, table.table th { padding:4px 8px; white-space:nowrap; }
 
-.partitions { min-width:320px;  }
+.partitions { }
 .graph {
   position: relative; /* IE is dumb */
   width: 100%;
@@ -167,7 +167,7 @@ table.table td, table.table th { padding:4px 8px; white-space:nowrap; }
 }
 .graph .bar span { position: absolute; left: 1em; }
 
-.services { min-width:200px; }
+.services { width:40% }
 .services div.status { 
 	display:inline-block; padding:2px 8px; width:30px; color:#555555; text-align:center; 
 	border-radius: 8px;
@@ -178,4 +178,12 @@ table.table td, table.table th { padding:4px 8px; white-space:nowrap; }
 .services div.status.down { background:#C5453C; text-decoration: blink; color:white; }
 
 #top { min-width:200px; }
+.columns {margin-left:35px}
+
+
+@media screen and (max-width: 680px) {
+    .column { width:100%; clear:both }
+    table.table {width:100%; margin-left:0;}
+    .columns{margin:0 10px}
+}
 

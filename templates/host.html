@@ -114,68 +114,58 @@
 		})();
     </script>
 	<br/>
-	<div style="margin:0 35px;">
-		<table style="width:100%" class="main">
-		<tr>
-			<td>
-				<div class="partitions column">
-					<table style="width:100%">
-						<tr>
-							<th class="left" style="border-bottom:1px solid #aaaaaa;padding:3px 8px;">硬盘分区</th>
-						</tr>
-					</table>
-					<div style="margin-top:6px;">
-					{{#partitions }}
-					{{disk}} &nbsp; size: {{size}} &nbsp; used: {{used}} &nbsp; free: {{free}} &nbsp; {{mount}}
-					<div class="graph">
-						<strong class="bar" style="width: {{usage}};">{{usage}}</strong>
-					</div><br>
-					{{/partitions }}
-					</div>
-				</div>
-			</td>
-			<td>
-				<div class="services column">
-					<table class="table">
-						<tr>
-							<th class="left">服务</th>
-							<th class="left">进程</th>
-							<th class="left" style="width:50px;">状态</th>
-						</tr>
-						{{#services}}
-						<tr><td>{{name}}</td><td>{{service}}</td><td><div class="status {{stat}}">{{status}}</div></td></tr>
-						{{/services}}
-					</table>
-				</div>
-			</td>
-			<td>
-				<div class="top column">
-					<table class="table current top">
-						<tr>
-							<th class="left">CPU %</th>
-							<th class="left">用户</th>
-							<th class="left">进程</th>
-						</tr>
-						{{#top}}
-						<tr><td>{{cpu}}</td><td>{{user}}</td><td>{{process}}</td></tr>
-						{{/top}}
-					</table>
-					<table class="table highlight top none">
-						<thead>
-						<tr>
-							<th class="left">CPU %</th>
-							<th class="left">用户</th>
-							<th class="left">进程</th>
-						</tr>
-						</thead>
-						<tbody>
-							<tr><td></td><td></td><td></td></tr>
-						</tbody>
-					</table>
-				</div>
-			</td>
-		</tr>
-		</table>
+	<div class="columns">
+        <div class="partitions column">
+            <table style="width:100%">
+                <tr>
+                    <th class="left" style="border-bottom:1px solid #aaaaaa;padding:3px 8px;">硬盘分区</th>
+                </tr>
+            </table>
+            <div style="margin-top:6px;">
+            {{#partitions }}
+            {{disk}} &nbsp; size: {{size}} &nbsp; used: {{used}} &nbsp; free: {{free}} &nbsp; {{mount}}
+            <div class="graph">
+                <strong class="bar" style="width: {{usage}};">{{usage}}</strong>
+            </div><br>
+            {{/partitions }}
+            </div>
+        </div>
+        <div class="services column">
+            <table class="table">
+                <tr>
+                    <th class="left">服务</th>
+                    <th class="left">进程</th>
+                    <th class="left" style="width:50px;">状态</th>
+                </tr>
+                {{#services}}
+                <tr><td>{{name}}</td><td>{{service}}</td><td><div class="status {{stat}}">{{status}}</div></td></tr>
+                {{/services}}
+            </table>
+        </div>
+        <div class="top column">
+            <table class="table current top">
+                <tr>
+                    <th class="left">CPU %</th>
+                    <th class="left">用户</th>
+                    <th class="left">进程</th>
+                </tr>
+                {{#top}}
+                <tr><td>{{cpu}}</td><td>{{user}}</td><td>{{process}}</td></tr>
+                {{/top}}
+            </table>
+            <table class="table highlight top none">
+                <thead>
+                <tr>
+                    <th class="left">CPU %</th>
+                    <th class="left">用户</th>
+                    <th class="left">进程</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr><td></td><td></td><td></td></tr>
+                </tbody>
+            </table>
+        </div>
 	</div>
 	
 	<br class="clear"/>
