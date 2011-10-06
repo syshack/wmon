@@ -121,7 +121,7 @@
 				<div class="partitions column">
 					<table style="width:100%">
 						<tr>
-							<th class="left" style="border-bottom:1px solid #aaaaaa;padding:3px 8px;">Partitions</th>
+							<th class="left" style="border-bottom:1px solid #aaaaaa;padding:3px 8px;">硬盘分区</th>
 						</tr>
 					</table>
 					<div style="margin-top:6px;">
@@ -138,9 +138,9 @@
 				<div class="services column">
 					<table class="table">
 						<tr>
-							<th class="left">Service</th>
-							<th class="left">Daemon</th>
-							<th class="left" style="width:50px;">Status</th>
+							<th class="left">服务</th>
+							<th class="left">进程名称</th>
+							<th class="left" style="width:50px;">状态</th>
 						</tr>
 						{{#services}}
 						<tr><td>{{name}}</td><td>{{service}}</td><td><div class="status {{stat}}">{{status}}</div></td></tr>
@@ -153,8 +153,8 @@
 					<table class="table current top">
 						<tr>
 							<th class="left">CPU %</th>
-							<th class="left">User</th>
-							<th class="left">Top processes</th>
+							<th class="left">用户</th>
+							<th class="left">进程</th>
 						</tr>
 						{{#top}}
 						<tr><td>{{cpu}}</td><td>{{user}}</td><td>{{process}}</td></tr>
@@ -164,8 +164,8 @@
 						<thead>
 						<tr>
 							<th class="left">CPU %</th>
-							<th class="left">User</th>
-							<th class="left">Top processes</th>
+							<th class="left">用户</th>
+							<th class="left">进程</th>
 						</tr>
 						</thead>
 						<tbody>

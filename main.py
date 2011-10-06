@@ -20,7 +20,7 @@ class Server(db.Model):
     cpu         = db.StringProperty()
     ip          = db.StringProperty()
     last_check  = db.DateTimeProperty()
-        
+
 
 class MonLog(db.Model):
     server_name = db.StringProperty()
@@ -41,15 +41,15 @@ class BaseHandler(webapp.RequestHandler):
         """docstring for write"""
 
         self.response.out.write(content)
-    
+
     def render(self, template_name, **kargs):
-        
+
         self.write(self.render_string(template_name, **kargs))
-    
+
     def render_string(self, template_name, **kargs):
         template = os.path.join(os.path.dirname(__file__), 'templates', template_name)
         template = open(template).read()
-        
+
         return pystache.render(template, **kargs)
 
 class MainHandler(BaseHandler):
@@ -62,12 +62,12 @@ class MainHandler(BaseHandler):
         for server in servers:
 
             logs = MonLog.gql("WHERE server_name = :server_name ORDER BY time DESC limit 1", server_name=server.server_name)
-               
+
             if not logs:
                 continue
-        
+
             log = logs[0]
-        
+
             top = []
             for t in log.top:
                 t = t.split(' ')
@@ -76,7 +76,7 @@ class MainHandler(BaseHandler):
                     'user':t[1],
                     'process':t[2]
                 })
-        
+
             services = []
             for s in log.services:
                 s = s.split(' ')
@@ -84,7 +84,7 @@ class MainHandler(BaseHandler):
                     'name':s[0],
                     'service':s[1],
                     'stat': s[2] == '1' and 'up' or 'down',
-                    'status': s[2] == '1' and 'up' or 'down'
+                    'status': s[2] == '1' and '正常' or '不正常'
                 })
 
             partitions = []
@@ -98,7 +98,7 @@ class MainHandler(BaseHandler):
                     'free':p[4],
                     'usage':p[5]
                 })
-        
+
             content = self.render_string("host.html",
                             hostname = log.server_name,
                             hostvar = log.server_name,
@@ -112,34 +112,34 @@ class MainHandler(BaseHandler):
                         )
 
             log_items.append(content)
-       
+
         if log_items:
             content = "\n".join(log_items)
         else:
             content = "<p style='text-align:center'>no data</p>"
-            
+
         self.render('home.html', content=content)
-        
+
 
 class LogHandler(BaseHandler):
 
     def get(self):
         server_name = self.request.get("server").strip()
         logs = MonLog.gql("WHERE server_name = :server_name and time > :time ORDER BY time DESC limit 10000", server_name=server_name, time = int(round(time.time()-7*24*60*60)))
-        
+
         log_lines = []
-        
+
         for log in logs:
-            
+
             service_status = 0;
             i = 1;
             for service in log.services:
                 service = service.split(' ')
                 if service[2] == '0':
                     service_status += i
-                
+
                 i = i*2;
-            
+
             log_lines.append("%s,%s,'%s','%s'"   % (log.time, log.load, service_status, "|".join(log.top).replace(' ', '+')))
 
         self.write("\n".join(log_lines))
@@ -148,7 +148,7 @@ class ReceiveHandler(BaseHandler):
 
     def get(self):
         pass
-    
+
     def post(self):
         data = self.request.get("data").strip()
         server_name = self.request.get("name").strip()
@@ -161,7 +161,7 @@ class ReceiveHandler(BaseHandler):
         elif not data or not server_name:
             self.write('fail')
         else:
-            
+
             logs = data.split(';')
 
             monlog = MonLog()
@@ -185,11 +185,11 @@ class ReceiveHandler(BaseHandler):
                 elif log[0] == 'partitions':
                     monlog.partitions = log[1].split('|')
                 else:
-                    services.append("%s %s" % (log[0], log[1])) 
+                    services.append("%s %s" % (log[0], log[1]))
 
             if services:
                 monlog.services = services
-            
+
             monlog.ip  = self.request.remote_addr
             monlog.put()
 
@@ -199,12 +199,12 @@ class ReceiveHandler(BaseHandler):
                 server.server_name = server_name
                 server.cpu = monlog.cpu
                 server.ip  = self.request.remote_addr
-            
+
             server.last_check = datetime.datetime.utcnow()
             server.put()
-            
+
             self.write('ok')
-        
+
 class RemoveLogHandler(BaseHandler):
 
     def get(self):
@@ -215,7 +215,7 @@ class RemoveLogHandler(BaseHandler):
             log.delete()
 
         self.write('ok')
-            
+
 def main():
     application = webapp.WSGIApplication([
                         ('/', MainHandler),

@@ -26,7 +26,7 @@ class wmon(object):
     """docstring for wmon"""
 
     server_name = ""
-    
+
     api_url    = ""
     api_secret = ""
 
@@ -50,15 +50,15 @@ class wmon(object):
         data.append('top:%s' % self.top())
         data.append('load:%s' % self.load())
         data.append('partitions:%s' % "|".join(self.partitions()))
-        
+
         for s in self.services:
             data.append('%s:%s' % (s, self.check_service(self.services[s])))
 
         data = ";".join(data)
         data = re.sub(r'[ ]+', ' ', data)
-        
+
         return self.send(data)
-        
+
     def send(self, data):
 
         req = urllib2.Request("%s/receive" % self.api_url)
@@ -66,7 +66,7 @@ class wmon(object):
         res = r.read()
         r.close()
         return res
-        
+
     def check_service(self, service):
         """docstring for check_serveice"""
         result = os.popen('ps ax -o \'%%c %%P\' | awk \'{if (($2 == 1) && ($1 == "\'%s\'")) print $0}\'' % service).read().strip("\n")
@@ -85,9 +85,9 @@ class wmon(object):
             tmp = line.split(':', 1)
             if tmp[0].strip() == 'model name':
                 return tmp[1].strip()
-                
+
         return ""
-    
+
     def uptime(self):
         """docstring for uptime"""
         return os.popen('uptime').read().strip("\n")
