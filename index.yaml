@@ -1,0 +1,7 @@
+indexes:
+
+- kind: MonLog
+  properties:
+  - name: server_name
+  - name: time
+    direction: desc

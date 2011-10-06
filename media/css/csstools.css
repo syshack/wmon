@@ -1,0 +1,181 @@
+/* CSS Template by xrado 2009 */
+
+html        { overflow-y:scroll; }
+html,body   { margin:0;padding:0;border:none; font-size:75%; }
+td          { padding:0px; }
+img, a img  { border:0; }
+form        { margin:0px; padding:0px; display:inline; }
+table       { margin:0px; padding:0px; }
+html, body, input, select, 
+textarea    { font-family: "Helvetica Neue", helvetica, arial, sans-serif; }
+pre, code, samp, kbd, 
+var         { font-family: monaco, "Courier New", courier, monospace; }
+pre         {
+	border: 1px solid #ccc;
+	margin: 0 0 1.5em;
+	padding: 1em;
+	white-space: pre; /* CSS2 */
+	white-space: -moz-pre-wrap; /* Mozilla */
+	white-space: -hp-pre-wrap; /* HP printers */
+	white-space: -o-pre-wrap; /* Opera 7 */
+	white-space: -pre-wrap; /* Opera 4-6 */
+	white-space: pre-wrap; /* CSS 2.1 */
+/*	white-space: pre-line; /* CSS 3 (and 2.1 as well, actually) */
+	word-wrap: break-word; /* IE */
+}
+abbr        { border-bottom: 1px dotted; }
+input, select, textarea, 
+button      { font-size: 1em; max-width: 100%; vertical-align: middle; margin: 0; }
+textarea    { overflow: auto; }
+ul, ol      { margin: 0 0 1.5em 3em; padding: 0; line-height: 1.5em; }
+blockquote  { margin: 0 0 1.5em; padding: 1em 1em .01em; border: 1px solid #ccc; }
+
+h1,h2,h3,
+h4,h5,h6    { margin:0px; font-weight:bold; }
+h1,h2,h3    { line-height: 1em; }
+h1          { font-size:20px; margin-bottom: .5625em; }
+h2          { font-size:16px; margin-bottom: .75em; }
+h3          { font-size:13px; margin-bottom: 1em; }
+h4          { font-size:14px; margin-bottom: 1.125em; }
+h5          { font-size:12px; margin-bottom: 1.2857em; }
+h6          { font-size:10px; margin-bottom: 1.5em; }
+
+a           { text-decoration: none; }
+a:focus     { outline:none; }
+a:hover     { text-decoration: underline; }
+
+header, section, footer, aside, nav, article, 
+figure      { display:block; }
+
+.right      { text-align:right; }
+.left       { text-align:left; }
+.center     { text-align:center; }
+.justify    { text-align:justify; }
+.middle     { vertical-align: middle; }
+
+.text       { text-decoration:none; }
+.underline  { text-decoration:underline; }
+.strike     { text-decoration:line-through; }
+
+.bold       { font-weight:bold; }
+.normal     { font-weight:normal; }
+.italic     { font-style:italic; }
+
+.hidden     { visibility:hidden; }
+.visible    { visibility:visible; }
+
+.nowrap     { white-space:nowrap; }
+.collapse   { border-collapse:collapse; }
+.overhidden { overflow:hidden; }
+.overauto   { overflow:auto; }
+
+.pointer    { cursor:pointer; }
+.move       { cursor:move; }
+
+.none       { display:none; }
+.block      { display:block; }
+.inline     { display:inline; }
+
+.absolute   { position:absolute; }
+.relative   { position:relative; }
+.static     { position:static; }
+.fixed      { position:static; }
+
+.overclear  { width:100%; overflow:hidden; }
+.clear      { clear:both; }
+.floatl     { float:left; }
+.floatr     { float:right; }
+
+.fs0        { font-size:0px; }
+.fs8        { font-size:8px; }
+.fs9        { font-size:9px; }
+.fs10       { font-size:10px; }
+.fs11       { font-size:11px; }
+.fs12       { font-size:12px; }
+.fs13       { font-size:13px; }
+.fs14       { font-size:14px; }
+.fs16       { font-size:16px; }
+.fs18       { font-size:18px; }
+.fs20       { font-size:20px; }
+
+.alert      { color:#444444; }
+.error      { color:#990000; }
+.fail       { background:#FFBFBF; }
+
+.ls25       { letter-spacing:0.025em; }
+.ls39       { letter-spacing:0.039em; }
+.ls75       { letter-spacing:0.075em; }
+.ls100      { letter-spacing:0.100em; }
+
+.o50        { filter:alpha(opacity=50); -moz-opacity:.5; opacity:.5; }
+.o40        {
+	opacity: .4; /* other browsers */
+	filter: progid:DXImageTransform.Microsoft.Alpha(opacity=40); /* this works in IE6, IE7, and IE8 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=40)"; /* this works in IE8 only */
+}
+
+.rotate90   { -webkit-transform: rotate(90deg); -moz-transform: rotate(90deg); filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1); }
+
+.box-shadow {
+	-moz-box-shadow: 2px 2px 3px #969696; /* for Firefox 3.5+ */
+	-webkit-box-shadow: 2px 2px 3px #969696; /* for Safari and Chrome */
+	filter: progid:DXImageTransform.Microsoft.Shadow(color='#969696', Direction=145, Strength=3);
+}
+
+/* ------------------------------------------------------------------ */
+body { min-width:800px; }
+* { font-size: 11px; font-family: arial,verdana; color:#333333; }
+
+.hostname { background:#aaaaaa; color:white; font-size:16px; padding:5px 10px 5px 35px; border-bottom:1px solid #888; cursor:pointer; }
+.info { color:#888; font-size:13px; padding:5px 10px; margin-left:25px; }
+.chart { margin:10px; font-size: 10px;  }
+.dygraph-axis-label-x { font-size:10px; }
+
+footer { font-size: 11px; color:gray; text-align:center; }
+footer a { font-size: 11px; text-decoration:none; color:#555555; }
+
+.column { margin-bottom:20px; }
+table.main td { vertical-align:top; padding:0;  }
+
+table.table  { border-collapse:collapse; width:90%; margin-left:20px; }
+table.table th { border-bottom:1px solid #aaaaaa; }
+table.table td, table.table th { padding:4px 8px; white-space:nowrap; }
+
+.partitions { min-width:320px;  }
+.graph {
+  position: relative; /* IE is dumb */
+  width: 100%;
+  border: 1px solid #aaaaaa;
+  text-align: left;
+  border-radius: 8px;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+}
+.graph .bar {
+  display: block;
+  position: relative;
+  background: #aaaaaa;
+  text-align: center;
+  color: #555;
+  height: 12px;
+  line-height: 12px;
+  font-size: 11px;
+  padding:2px;
+  border-radius: 8px;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+}
+.graph .bar span { position: absolute; left: 1em; }
+
+.services { min-width:200px; }
+.services div.status { 
+	display:inline-block; padding:2px 8px; width:30px; color:#555555; text-align:center; 
+	border-radius: 8px;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+}
+.services div.status.up { background:#90C369; }
+.services div.status.down { background:#C5453C; text-decoration: blink; color:white; }
+
+#top { min-width:200px; }
+

@@ -1,0 +1,183 @@
+<div class="hostname">
+	{{ hostname }} {{ip}}
+</div>
+<div class="host" id="{{ hostvar }}">
+	<div class="info">{{ cpu_model_name }} &nbsp; | &nbsp; {{ uptime }}</div>
+	<div id="chart_{{ hostvar }}" class="chart"></div>
+    <script type="text/javascript">
+		(function(){
+			var host = $('{{ hostvar }}');
+			var g = new Dygraph(
+				$("chart_{{ hostvar }}"),
+				'{{cvs}}',
+				{
+					labels: ['time','01min','05min','15min','status','top'],
+					visibility: [true,true,true,false,false],
+					labelsKMB: true,
+					legend: 'always',
+					colors: ["rgb(51,204,204)","rgb(255,100,100)","#00DD55"],
+					width: '100%',
+					height: 200,
+					ylabel: 'Load',
+					yLabelWidth:12,
+					drawXGrid: true,
+					xValueFormatter: Dygraph.dateString_, 
+					xValueParser: function(x) { return 1000*parseInt(x); }, 
+					xTicker: Dygraph.dateTicker,
+					labelsDivWidth: 180,
+					labelsDivStyles: {'backgroundColor': 'transparent'},
+					labelsSeparateLines: true,
+					labelsShowZeroValues:false,
+					yAxisLabelWidth: 20,
+					valueRange: [0,5],
+					xAxisLabelFormatter: function (d, gran) {
+						var curr_date = d.getDate();
+						var curr_month = d.getShortMonthName(); 
+						var curr_year = d.getFullYear();
+						var curr_hour = (d.getHours()<10 ? '0':'') + d.getHours();
+						var curr_min = (d.getMinutes()<10 ? '0':'') + d.getMinutes();
+						return curr_hour+':'+curr_min+"\n"+curr_date + "." + curr_month;
+					},
+					highlightCallback: function(event, x, points,row) {
+						var data = g.getValue(row,5)
+						if(data) data = data.replace(/[\"\']/g,'');
+						else return;
+						host.getElement('div.top table.current').addClass('none')
+						host.getElement('div.top table.highlight').removeClass('none')
+						var tbody = '';
+						data.split('|').each(function(row){
+							var tr = '<tr>';
+							row.split('+').each(function(d){
+								tr+= '<td>'+d+'</td>';
+							});
+							tr+= '</tr>';
+							tbody+=tr;
+						});
+						host.getElement('div.top table.highlight tbody').set('html',tbody);
+						host.getElement('div.top table.highlight').setStyle('background','#FFFFCC')
+					},
+					unhighlightCallback: function(e, point) {
+						host.getElement('div.top table.current').removeClass('none');
+						host.getElement('div.top table.highlight').addClass('none');
+						host.getElement('div.top table.highlight').setStyle('background','')
+					},
+					drawCallback :function(dygraph, is_initial){
+						if(is_initial){
+							var status = null;
+							var annotations = [];
+							dygraph.rawData_.each(function(el){
+								var s = el[4].replace(/\'/g,'').toInt();
+								if(isNaN(s) || status==null) {
+									status = s;
+									return;
+								}
+								if(status != s){
+									annotations.push( {
+										series: '05min',
+										x: el[0]/1000,
+										text:'services status changed',
+										status: s,
+										width:16,
+										height:16,
+										tickHeight:20,
+										icon:'media/images/warning.png',
+										mouseOverHandler: function(annotation, point, dygraph, event) {
+											if(annotation.status!=undefined){
+												var x = 1;
+												host.getElement('div.services table').setStyle('background','#FFFFCC')
+												host.getElements('div.services table tr td:last-child div').each(function(chk){
+													chk.store('current',chk.className+'|'+chk.get('text'));
+													if(annotation.status & x) chk.removeClass('up').addClass('down').set('text','down');
+													else chk.removeClass('down').addClass('up').set('text','up');
+													x=x*2;
+												});
+											}
+											
+										},
+										mouseOutHandler: function(annotation, point, dygraph, event) {
+											host.getElement('div.services table').setStyle('background','')
+											host.getElements('div.services table tr td:last-child div').each(function(chk){
+												var cur = chk.retrieve('current').split('|');
+												chk.className = cur[0];
+												chk.set('text',cur[1]);
+											});
+										}
+									} );
+								}
+								status = s;
+							});
+							g.setAnnotations(annotations);
+						}
+					}
+				}
+			);
+		})();
+    </script>
+	<br/>
+	<div style="margin:0 35px;">
+		<table style="width:100%" class="main">
+		<tr>
+			<td>
+				<div class="partitions column">
+					<table style="width:100%">
+						<tr>
+							<th class="left" style="border-bottom:1px solid #aaaaaa;padding:3px 8px;">Partitions</th>
+						</tr>
+					</table>
+					<div style="margin-top:6px;">
+					{{#partitions }}
+					{{disk}} &nbsp; size: {{size}} &nbsp; used: {{used}} &nbsp; free: {{free}} &nbsp; {{mount}}
+					<div class="graph">
+						<strong class="bar" style="width: {{usage}};">{{usage}}</strong>
+					</div><br>
+					{{/partitions }}
+					</div>
+				</div>
+			</td>
+			<td>
+				<div class="services column">
+					<table class="table">
+						<tr>
+							<th class="left">Service</th>
+							<th class="left">Daemon</th>
+							<th class="left" style="width:50px;">Status</th>
+						</tr>
+						{{#services}}
+						<tr><td>{{name}}</td><td>{{service}}</td><td><div class="status {{stat}}">{{status}}</div></td></tr>
+						{{/services}}
+					</table>
+				</div>
+			</td>
+			<td>
+				<div class="top column">
+					<table class="table current top">
+						<tr>
+							<th class="left">CPU %</th>
+							<th class="left">User</th>
+							<th class="left">Top processes</th>
+						</tr>
+						{{#top}}
+						<tr><td>{{cpu}}</td><td>{{user}}</td><td>{{process}}</td></tr>
+						{{/top}}
+					</table>
+					<table class="table highlight top none">
+						<thead>
+						<tr>
+							<th class="left">CPU %</th>
+							<th class="left">User</th>
+							<th class="left">Top processes</th>
+						</tr>
+						</thead>
+						<tbody>
+							<tr><td></td><td></td><td></td></tr>
+						</tbody>
+					</table>
+				</div>
+			</td>
+		</tr>
+		</table>
+	</div>
+	
+	<br class="clear"/>
+	
+</div>

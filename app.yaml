@@ -1,0 +1,27 @@
+application: whycai-wmon
+version: 1
+runtime: python
+api_version: 1
+
+builtins:
+- datastore_admin: on
+
+handlers:
+- url: /favicon.ico
+  static_files: media/favicon.ico
+  upload: media/favicon.ico
+  mime_type: image/x-icon    
+
+- url: /robots.txt
+  static_files: media/robots.txt
+  upload: media/robots.txt
+  
+- url: /media
+  static_dir: media
+
+- url: /receive
+  script: main.py
+  
+- url: .*
+  script: main.py
+  # login: admin
