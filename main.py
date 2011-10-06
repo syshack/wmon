@@ -12,6 +12,7 @@ import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), 'lib'))
 
 import pystache
+from pystache import Loader
 import config
 
 class Server(db.Model):
@@ -47,9 +48,12 @@ class BaseHandler(webapp.RequestHandler):
         self.write(self.render_string(template_name, **kargs))
 
     def render_string(self, template_name, **kargs):
-        template = os.path.join(os.path.dirname(__file__), 'templates', template_name)
-        template = open(template).read()
 
+        template = Loader().load_template(template_name, 
+                            template_dirs = os.path.join(os.path.dirname(__file__), 'templates'), 
+                            encoding='utf-8',
+                            extension='html')
+        
         return pystache.render(template, **kargs)
 
 class MainHandler(BaseHandler):
@@ -84,7 +88,7 @@ class MainHandler(BaseHandler):
                     'name':s[0],
                     'service':s[1],
                     'stat': s[2] == '1' and 'up' or 'down',
-                    'status': s[2] == '1' and '正常' or '不正常'
+                    'status': s[2] == '1' and u'运行' or u'停止'
                 })
 
             partitions = []
@@ -99,7 +103,7 @@ class MainHandler(BaseHandler):
                     'usage':p[5]
                 })
 
-            content = self.render_string("host.html",
+            content = self.render_string("host",
                             hostname = log.server_name,
                             hostvar = log.server_name,
                             ip = log.ip,
@@ -118,7 +122,7 @@ class MainHandler(BaseHandler):
         else:
             content = "<p style='text-align:center'>no data</p>"
 
-        self.render('home.html', content=content)
+        self.render('home', content=content)
 
 
 class LogHandler(BaseHandler):

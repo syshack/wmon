@@ -1,0 +1,4 @@
+cron:
+- description: daily summary job
+  url: /remove_log
+  schedule: every 24 hours

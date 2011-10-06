@@ -1,4 +1,4 @@
-#简单服务监控(gae版)
+#简单服器监控(gae版)
 
 
 #安装
@@ -18,5 +18,3 @@
 5、修改app.yaml中 application id，使用gae sdk上传到的你的gae
 
 6、完成，可以访问你的gae地址查看监控了
-
-
