@@ -112,8 +112,14 @@ class MainHandler(BaseHandler):
                         )
 
             log_items.append(content)
+       
+        if log_items:
+            content = "\n".join(log_items)
+        else:
+            content = "<p style='text-align:center'>no data</p>"
+            
+        self.render('home.html', content=content)
         
-        self.render('home.html', content="".join(log_items))
 
 class LogHandler(BaseHandler):
 
