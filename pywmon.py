@@ -45,6 +45,7 @@ class wmon(object):
 
         data = []
         data.append('time:%s' % time.time())
+        data.append('localtime:%s' % time.strftime('%Y-%m-%d %H:%M:%S'))
         data.append('cpu:%s' % self.cpu_model_name())
         data.append('uptime:%s' % self.uptime())
         data.append('top:%s' % self.top())

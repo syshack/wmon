@@ -169,7 +169,7 @@ table.table td, table.table th { padding:4px 8px; white-space:nowrap; }
 
 .services { width:40% }
 .services div.status { 
-	display:inline-block; padding:2px 8px; width:30px; color:#555555; text-align:center; 
+	display:inline-block; padding:2px 8px; width:40px; color:#555555; text-align:center; 
 	border-radius: 8px;
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px;

@@ -7,6 +7,7 @@ import datetime,time
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util
 from google.appengine.ext import db
+from google.appengine.api import users
 
 import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), 'lib'))
@@ -21,13 +22,14 @@ class Server(db.Model):
     cpu         = db.StringProperty()
     ip          = db.StringProperty()
     last_check  = db.DateTimeProperty()
-
+    localtime   = db.StringProperty()
 
 class MonLog(db.Model):
     server_name = db.StringProperty()
     ip          = db.StringProperty()
     datetime    = db.DateTimeProperty(auto_now_add=True)
     time        = db.IntegerProperty()
+    localtime   = db.StringProperty()
     cpu         = db.StringProperty()
     uptime      = db.StringProperty()
     load        = db.StringProperty()
@@ -60,6 +62,7 @@ class MainHandler(BaseHandler):
 
     def get(self):
 
+        user = users.get_current_user()
         servers = Server.all()
 
         log_items = []
@@ -88,7 +91,7 @@ class MainHandler(BaseHandler):
                     'name':s[0],
                     'service':s[1],
                     'stat': s[2] == '1' and 'up' or 'down',
-                    'status': s[2] == '1' and u'运行' or u'停止'
+                    'status': s[2] == '1' and u'运行中' or u'已停止'
                 })
 
             partitions = []
@@ -103,10 +106,16 @@ class MainHandler(BaseHandler):
                     'usage':p[5]
                 })
 
+            if user and users.is_current_user_admin():
+                ip = log.ip
+            else:
+                ip = ''
+
             content = self.render_string("host",
                             hostname = log.server_name,
+                            localtime = log.localtime,
                             hostvar = log.server_name,
-                            ip = log.ip,
+                            ip = ip,
                             cvs = "/log?server=%s" % log.server_name,
                             partitions = partitions,
                             cpu_model_name = log.cpu,
@@ -182,6 +191,8 @@ class ReceiveHandler(BaseHandler):
                     monlog.cpu = log[1]
                 elif log[0] == 'uptime':
                     monlog.uptime = log[1]
+                elif log[0] == 'localtime':
+                    monlog.localtime = log[1]
                 elif log[0] == 'load':
                     monlog.load = log[1]
                 elif log[0] == 'top':
@@ -205,6 +216,7 @@ class ReceiveHandler(BaseHandler):
                 server.ip  = self.request.remote_addr
 
             server.last_check = datetime.datetime.utcnow()
+            server.localtime  = monlog.localtime
             server.put()
 
             self.write('ok')
