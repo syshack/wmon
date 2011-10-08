@@ -114,7 +114,6 @@ class MainHandler(BaseHandler):
             content = self.render_string("host",
                             hostname = log.server_name,
                             localtime = log.localtime,
-                            hostvar = log.server_name,
                             ip = ip,
                             cvs = "/log?server=%s" % log.server_name,
                             partitions = partitions,
@@ -181,7 +180,6 @@ class ReceiveHandler(BaseHandler):
             monlog.server_name = server_name
             monlog.datetime    = datetime.datetime.now()
 
-            services = []
             for log in logs:
                 log = log.split(':', 1)
 
@@ -199,11 +197,8 @@ class ReceiveHandler(BaseHandler):
                     monlog.top = log[1].split('|')
                 elif log[0] == 'partitions':
                     monlog.partitions = log[1].split('|')
-                else:
-                    services.append("%s %s" % (log[0], log[1]))
-
-            if services:
-                monlog.services = services
+                elif log[0] == 'services':
+                    monlog.services = log[1].split('|')
 
             monlog.ip  = self.request.remote_addr
             monlog.put()

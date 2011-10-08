@@ -13,7 +13,7 @@ import time
 
 SERVER_NAME = 'test'
 API_SECRET  = 'secret'
-API_URL     = 'http://your-id.appspot.com'
+API_URL     = 'http://your-id.appspot.com/receive' # or http://your-id.sinaapp.com/receive.php
 SERVICES    = {
         'mongodb':'mongod',
         'mysql':'mysqld',
@@ -50,11 +50,14 @@ class wmon(object):
         data.append('uptime:%s' % self.uptime())
         data.append('top:%s' % self.top())
         data.append('load:%s' % self.load())
-        data.append('partitions:%s' % "|".join(self.partitions()))
+        data.append('partitions:%s' % self.partitions())
 
+        services = [] 
         for s in self.services:
-            data.append('%s:%s' % (s, self.check_service(self.services[s])))
+            services.append('%s %s' % (s, self.check_service(self.services[s])))
 
+        data.append("services:%s" % '|'.join(services))
+            
         data = ";".join(data)
         data = re.sub(r'[ ]+', ' ', data)
 
@@ -62,7 +65,7 @@ class wmon(object):
 
     def send(self, data):
 
-        req = urllib2.Request("%s/receive" % self.api_url)
+        req = urllib2.Request(self.api_url)
         r = urllib2.urlopen(req, urllib.urlencode({'data':data, 'secret':self.api_secret, 'name':self.server_name}))
         res = r.read()
         r.close()
@@ -96,8 +99,8 @@ class wmon(object):
     def partitions(self):
         """docstring for partitions"""
 
-        return os.popen('df -h | grep -vE \'%s\' | awk \'{ print $1 " " $6 " " $2 " " $3 " " $4 " " $5  }\'' % self.partitions_exclude).read().strip("\n").split("\n")
-
+        return os.popen('df -h | grep -vE \'%s\' | awk \'{ print $1 " " $6 " " $2 " " $3 " " $4 " " $5  }\'' % self.partitions_exclude).read().strip("\n").replace('\n', '|')
+        
     def top(self):
         """docstring for top"""
         result = os.popen('ps axeo "%C %U %c" --sort -pcpu | head -n 7 | tail -n 6').read().replace('\n', '|').strip("|").replace('| ', '|').replace(' |', '|')
