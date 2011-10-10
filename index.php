@@ -34,7 +34,7 @@ if(isset($_GET['cvs']))
                 $i = $i*2;
             }
             
-            $lines[] = $row['time'].",".$row['load'].",'".$service_status."','".$row['top']."'";
+            $lines[] = $row['time'].",".$row['load'].",'".$service_status."','".str_replace(' ', '+',$row['top'])."'";
         }
 
         header("Content-Type:text/plain");
@@ -116,6 +116,8 @@ foreach($servers as $server)
     
     $host_content[] = $host->render(file_get_contents('templates/host.html'));
 }
+
+mysql_close($link);
 
 $home = new Mustache;
 $home->content = implode("\n", $host_content);
