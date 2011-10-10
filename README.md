@@ -23,11 +23,17 @@
 #SAE安装
 
 1、修改 config.php 中的 API_SECRET 常量
+
 2、按照gae安装 2-4步安装被监控服务器端
+
 3、按照片table.sql建mysql数据库表
+
 4、参考sae文档使部署到sae,注：你可以将*.py加入svn跳过列表
 
 #其它php服务器安装
+
 1、按照sae安装 1-3步完成配置和被监控服务器安装
+
 2、配置config.php中mysql配置
+
 3、上传到服务器
