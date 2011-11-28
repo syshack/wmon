@@ -26,7 +26,7 @@
 
 2、按照gae安装 2-4步安装被监控服务器端
 
-3、按照片table.sql建mysql数据库表
+3、按照table.sql建mysql数据库表（在phpmyadmin里执行这段sql或用phpmyadmin导入）
 
 4、参考sae文档使部署到sae,注：你可以将*.py加入svn跳过列表
 
