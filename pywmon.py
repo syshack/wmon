@@ -61,6 +61,7 @@ class wmon(object):
         data = ";".join(data)
         data = re.sub(r'[ ]+', ' ', data)
 
+        print "send:", data
         return self.send(data)
 
     def send(self, data):

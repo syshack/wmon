@@ -14,7 +14,7 @@
 
 3、上传pywmon.py到需要监控的服务，可以是多个服务器，不同 SERVER_NAME 即可
 
-4、使用 cron 定时执行 pywmon.py 如 `*/5 * * * * /path/to/python /path/to/pywmon.py &> /dev/null`
+4、使用 cron 定时执行 pywmon.py 如 `*/5 * * * * /path/to/python /path/to/pywmon.py >> /tmp/mywmon.log >&1`
 
 5、修改app.yaml中 application id，使用gae sdk上传到的你的gae
 
