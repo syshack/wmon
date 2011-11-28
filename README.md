@@ -2,6 +2,9 @@
 
 支持 gae 和 php 服务器， php可以运行于sae和任何支持php+mysql的服务器
 
+gae demo: http://whycai-demo.appspot.com
+sae demo: http://wmon.sinaapp.com
+
 #GAE安装
 
 1、配置 config.py 中的 API_SECRET
